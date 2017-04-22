@@ -16,17 +16,16 @@ namespace ListenMoePlayer.Models {
 			Initialize();
 		}
 
-		private void Initialize() {
-			Uri manifestUri = new Uri("http://listen.moe/fallback");
-			player.Source = MediaSource.CreateFromUri(manifestUri);
+		public MediaPlayer Initialize() {
+			try {
+				Uri manifestUri = new Uri("http://listen.moe/fallback");
+				player.Source = MediaSource.CreateFromUri(manifestUri);
+				return player;
+			} catch {
+				throw new Exception();
+			}
 		}
 
-		public void Play() {
-			player.Play();
-		}
 
-		public void Pause() {
-			player.Pause();
-		}
 	}
 }

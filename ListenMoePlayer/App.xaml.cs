@@ -11,7 +11,7 @@ namespace ListenMoePlayer {
 	sealed partial class App : Template10.Common.BootStrapper {
 		public App() {
 			InitializeComponent();
-			RequestedTheme = Windows.UI.Xaml.ApplicationTheme.Light;
+			RequestedTheme = Windows.UI.Xaml.ApplicationTheme.Dark;
 		}
 
 		public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args) {

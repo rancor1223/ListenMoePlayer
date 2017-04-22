@@ -7,35 +7,84 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:ListenMoePlayer.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:vm="using:ListenMoePlayer.ViewModels" mc:Ignorable="d">
+      xmlns:vm="using:ListenMoePlayer.ViewModels"
+	  xmlns:converters="using:Template10.Converters" 
+	  mc:Ignorable="d">
 
 	<Page.DataContext>
 		<vm:MainPageViewModel x:Name="ViewModel" />
 	</Page.DataContext>
 
-	<RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+	<Page.Resources>
+		<converters:ValueWhenConverter x:Key="VisibleWhenTrueConverter">
+			<converters:ValueWhenConverter.When>
+				<x:Boolean>true</x:Boolean>
+			</converters:ValueWhenConverter.When>
+			<converters:ValueWhenConverter.Value>
+				<Visibility>Visible</Visibility>
+			</converters:ValueWhenConverter.Value>
+			<converters:ValueWhenConverter.Otherwise>
+				<Visibility>Collapsed</Visibility>
+			</converters:ValueWhenConverter.Otherwise>
+		</converters:ValueWhenConverter>
 
-		<controls:PageHeader x:Name="pageHeader"
-                             RelativePanel.AlignLeftWithPanel="True"
-                             RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True"
-                             Text="Main Page">
+		<converters:ValueWhenConverter x:Key="VisibleWhenFalseConverter">
+			<converters:ValueWhenConverter.When>
+				<x:Boolean>false</x:Boolean>
+			</converters:ValueWhenConverter.When>
+			<converters:ValueWhenConverter.Value>
+				<Visibility>Visible</Visibility>
+			</converters:ValueWhenConverter.Value>
+			<converters:ValueWhenConverter.Otherwise>
+				<Visibility>Collapsed</Visibility>
+			</converters:ValueWhenConverter.Otherwise>
+		</converters:ValueWhenConverter>
+	</Page.Resources>
 
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
 
-		</controls:PageHeader>
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
 
-		<RelativePanel EntranceNavigationTransitionInfo.IsTargetElement="True"
-                       RelativePanel.AlignBottomWithPanel="True"
-                       RelativePanel.AlignLeftWithPanel="True"
-                       RelativePanel.AlignRightWithPanel="True"
-                       RelativePanel.Below="pageHeader">
+			<Button Grid.Column="1" 
+				Click="{x:Bind ViewModel.Play}" 
+				Width="60" Height="60" 
+				BorderBrush="Transparent"
+				Background="{StaticResource SystemControlHighlightTransparentBrush}"
+				Visibility="{x:Bind ViewModel.playing, Mode=OneWay, Converter={StaticResource VisibleWhenFalseConverter}}">
+				<SymbolIcon Symbol="Play" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+			</Button>
 
-			<StackPanel>
-				<Button Content="Play" Click="{x:Bind ViewModel.Play}"/>
-				<Button Content="Pause" Click="{x:Bind ViewModel.Pause}"/>
-			</StackPanel>
-		</RelativePanel>
-	</RelativePanel>
+			<Button Grid.Column="1" 
+				Click="{x:Bind ViewModel.Pause}" 
+				Width="60" Height="60"
+				BorderBrush="Transparent"
+				Background="{StaticResource SystemControlHighlightTransparentBrush}"
+				Visibility="{x:Bind ViewModel.playing, Mode=OneWay, Converter={StaticResource VisibleWhenTrueConverter}}">
+				<SymbolIcon Symbol="Pause" Foreground="{StaticResource SystemControlBackgroundAccentBrush}"/>
+
+			</Button>
+		</Grid>
+
+		<CommandBar x:Name="commandBar" Grid.Row="2" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" >
+			<AppBarButton 
+				x:Name="Settings"
+				Icon="Setting" 
+				Label="Settings" 
+				Width="75"
+				/>
+		</CommandBar>
+
+	</Grid>
 
 </Page>
