@@ -49,6 +49,10 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 
+		<ListView Grid.Row="0"  ItemsSource="{x:Bind ViewModel.log, Mode=OneWay}">
+			
+		</ListView>
+
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"></ColumnDefinition>
